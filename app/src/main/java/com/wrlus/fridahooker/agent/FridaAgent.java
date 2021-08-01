@@ -17,7 +17,7 @@ import java.io.InputStream;
 import java.net.ServerSocket;
 
 public class FridaAgent {
-    private static final String TAG = "FridaAgent";
+    private static final String TAG = "IceSpite-";
     private static final int FRIDA_CHECKER_DELAY = Config.FRIDA_CHECKER_DELAY;
     private String installPath;
     private boolean isSupported;
@@ -65,7 +65,7 @@ public class FridaAgent {
     }
 
     public boolean removeFrida() {
-        if (!isSupported || isInstalled) {
+        if (!isSupported || !isInstalled) {
             return false;
         }
         int code = NativeShell.execute("rm -rf " + installPath);
@@ -113,7 +113,7 @@ public class FridaAgent {
     }
 
     public boolean validFridaExecutable(File cacheFile) {
-        return false;
+        return true;
     }
 
     public boolean isInstalled() {

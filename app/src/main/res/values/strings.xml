@@ -6,6 +6,7 @@
     <string name="manage">管理</string>
     <string name="image_status" translatable="false">image_status</string>
     <string name="android_ver">系统版本: Android %1$s ( API %2$d )</string>
+    <string name="frida_ver">frida版本切换: </string>
     <string name="device_name">设备名称: %1$s</string>
     <string name="device_abi">体系结构: %1$s</string>
     <string name="refresh">刷新</string>

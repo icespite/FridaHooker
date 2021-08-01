@@ -8,11 +8,10 @@
 
     <ImageView
         android:id="@+id/imageStatus"
-        android:layout_width="382dp"
+        android:layout_width="362dp"
         android:layout_height="143dp"
         android:layout_marginStart="15dp"
         android:layout_marginTop="10dp"
-        android:layout_marginEnd="15dp"
         android:contentDescription="@string/image_status"
         android:scaleType="fitStart"
         app:layout_constraintEnd_toEndOf="parent"
@@ -35,25 +34,32 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!--    <Spinner-->
+    <!--        android:id="@+id/planets_spinner"-->
+    <!--        android:layout_width="95dp"-->
+    <!--        android:layout_height="40dp"-->
+    <!--        android:layout_marginTop="12dp"-->
+    <!--        app:layout_constraintEnd_toStartOf="@+id/btnFridaManage"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/imageStatus" />-->
+
     <TextView
         android:id="@+id/textViewFridaVersion"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="15dp"
+        android:layout_width="329dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="8dp"
         android:text="@string/frida_missing"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textSize="16sp"
-        app:layout_constraintEnd_toStartOf="@+id/btnFridaManage"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageStatus" />
 
     <Button
         android:id="@+id/btnFridaManage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="7dp"
-        android:layout_marginEnd="15dp"
+        android:layout_width="98dp"
+        android:layout_height="43dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
         android:text="@string/manage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageStatus" />
@@ -70,19 +76,46 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewFridaVersion" />
 
+
+    <TextView
+        android:id="@+id/fridaText"
+        android:layout_width="137dp"
+        android:layout_height="26dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/frida_ver"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toStartOf="@+id/planets_spinner"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnFridaManage" />
+
+    <org.angmarch.views.NiceSpinner
+        android:id="@+id/planets_spinner"
+        android:layout_width="163dp"
+        android:layout_height="43dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="4dp"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.564"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnFridaManage" />
+
     <TextView
         android:id="@+id/textViewAndroidVer"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="30dp"
         android:layout_marginEnd="15dp"
         android:text="@string/android_ver"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnFridaManage" />
+        app:layout_constraintTop_toBottomOf="@+id/fridaText" />
 
     <TextView
         android:id="@+id/textViewDeviceName"
