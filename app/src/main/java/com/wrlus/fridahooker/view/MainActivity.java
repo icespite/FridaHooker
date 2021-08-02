@@ -152,12 +152,21 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback,
         textViewStructure.setText(deviceAbiString);
     }
 
-    private void initNiceSpinner() {
-//        File dir = this.getDir("frida", Context.MODE_PRIVATE);
+    public String[] getFridaVersions() {
         File dir = this.getFilesDir();
         File file[] = dir.listFiles();
-        File fridaFile = file[1];
-        String[] files = fridaFile.list();
+        for (File tmp : file) {
+            if (tmp.isDirectory()) {
+
+                return tmp.list();
+            }
+        }
+        return new String[]{};
+    }
+
+    private void initNiceSpinner() {
+
+        String[] files = getFridaVersions();
 
         NiceSpinner niceSpinner = (NiceSpinner) findViewById(R.id.planets_spinner);
         List<String> dataset = new LinkedList<>(Arrays.asList(files));
@@ -301,7 +310,7 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback,
             File cacheFile = tmpFridaAgent.extractLocalFrida(
                     getAssets().open("frida-server-" + Config.LOCAL_FRIDA_VERSION + "-android-" + abi + ".xz"),
                     getCacheDir().getAbsolutePath());
-            fridaVersion=Config.LOCAL_FRIDA_VERSION;
+            fridaVersion = Config.LOCAL_FRIDA_VERSION;
             fridaAgent = tmpFridaAgent;
             Message msg = handler.obtainMessage(Msg.DOWNLOAD_FRIDA_FROM_ASSET_SUCCESS, cacheFile);
             handler.sendMessage(msg);
