@@ -3,11 +3,11 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 30
     defaultConfig {
-        applicationId "com.wrlus.fridahooker"
+        applicationId "com.wrlus.fridahooker.icespite"
         minSdkVersion 21
         targetSdkVersion 30
         versionCode 7
-        versionName "1.7.12104"
+        versionName "2.0.2-icespite"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         ndkVersion "22.1.7171670"
         externalNativeBuild {
@@ -31,6 +31,11 @@ android {
     compileOptions {
         sourceCompatibility = 11
         targetCompatibility = 11
+    }
+    applicationVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "FridaHooker-${defaultConfig.versionName}-${variant.buildType.name}.apk"
+        }
     }
 }
 

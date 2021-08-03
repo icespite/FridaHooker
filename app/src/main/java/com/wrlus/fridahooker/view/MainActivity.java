@@ -1,38 +1,31 @@
 package com.wrlus.fridahooker.view;
 
+import android.annotation.SuppressLint;
 import android.content.ContentResolver;
-import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Bundle;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.provider.DocumentsContract;
-import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -70,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback,
     private final Handler handler = new Handler(this);
     private FridaAgent fridaAgent;
 
+    @SuppressLint("UseSwitchCompatOrMaterialCode")
     private Switch switchStatus;
     private ImageView imageStatus;
     private TextView textViewFridaVersion;
@@ -157,7 +151,6 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback,
         File file[] = dir.listFiles();
         for (File tmp : file) {
             if (tmp.isDirectory()) {
-
                 return tmp.list();
             }
         }
@@ -181,6 +174,7 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback,
             @Override
             public void onItemSelected(NiceSpinner parent, View view, int position, long id) {
                 fridaVersion = (String) parent.getItemAtPosition(position);
+                writeFridaVersion(fridaVersion);
                 Toast.makeText(MainActivity.this, "切换为" + fridaVersion, Toast.LENGTH_SHORT).show();
                 init();
                 checkAll();

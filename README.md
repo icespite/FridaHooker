@@ -1,6 +1,8 @@
 # FridaHooker
 - 图形界面版本的frida，提供一个方便地管理frida的方式，告别命令行。
 
+> 本版本移出了自带Frida的安装，改为手动选择安装；增加多版本管理。
+
 ## 一、主要功能
 - 从本地安装frida server到root后的手机
 - 启动、关闭frida server
@@ -29,4 +31,4 @@
 - A3：这是一个已知问题，是因为检测frida正在运行的方法速度过快造成的，重新打开应用即可解决。
 
 ## 七、截图
-<img src="img/demo.png" />
+<img src="img/demo.jpg" />
