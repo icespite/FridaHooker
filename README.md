@@ -1,7 +1,7 @@
-# FridaHooker
-- 图形界面版本的frida，提供一个方便地管理frida的方式，告别命令行。
+# FridaHooker (Modified By IceSpite)
+> 本版本移除了自带Frida的安装，改为手动选择安装；增加多版本管理。
 
-> 本版本移出了自带Frida的安装，改为手动选择安装；增加多版本管理。
+图形界面版本的frida，提供一个方便地管理frida的方式，告别命令行。
 
 ## 一、主要功能
 - 从本地安装frida server到root后的手机

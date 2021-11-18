@@ -7,10 +7,11 @@
     <string name="android_ver">System Version: Android %1$s ( API %2$d )</string>
     <string name="device_name">Device Name: %1$s</string>
     <string name="device_abi">Structure: %1$s</string>
+    <string name="frida_path">Frida Path: %1$s</string>
     <string name="refresh">Refresh</string>
     <string name="settings">Preferences</string>
     <string name="about">About FridaHooker</string>
-    <string name="gplv2">1.7.12104\n\nThis program is free software; you can redistribute it and/or modify it under the terms and conditions of the GNU General Public License, version 2, as published by the Free Software Foundation.\nThis program is distributed in the hope it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. \nSee the GNU General Public License for more details. \n\nSource Code: https://github.com/icespite/FridaHooker</string>
+    <string name="gplv2">This program is free software; you can redistribute it and/or modify it under the terms and conditions of the GNU General Public License, version 2, as published by the Free Software Foundation.\nThis program is distributed in the hope it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. \nSee the GNU General Public License for more details. \n\nSource Code: https://github.com/icespite/FridaHooker</string>
     <string name="local_use">Enable Local Mode</string>
     <string name="debug_mode">Show Debug Log</string>
     <string name="need_permissions">Need Permissions</string>

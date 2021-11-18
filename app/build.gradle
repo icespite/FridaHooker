@@ -3,11 +3,11 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 30
     defaultConfig {
-        applicationId "com.wrlus.fridahooker.icespite"
+        applicationId "top.icespite.fridahooker"
         minSdkVersion 21
         targetSdkVersion 30
         versionCode 7
-        versionName "2.0.2-icespite"
+        versionName "3.0.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         ndkVersion "22.1.7171670"
         externalNativeBuild {

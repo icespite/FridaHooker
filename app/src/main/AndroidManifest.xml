@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.wrlus.fridahooker">
+    package="top.icespite.fridahooker">
     <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:allowBackup="false"
@@ -9,13 +9,13 @@
         android:roundIcon="@mipmap/frida"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".view.MainActivity">
+        <activity android:name="top.icespite.fridahooker.view.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.SettingsActivity" android:label="@string/settings" android:exported="false"/>
+        <activity android:name="top.icespite.fridahooker.view.SettingsActivity" android:label="@string/settings" android:exported="false"/>
     </application>
 </manifest>
