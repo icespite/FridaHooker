@@ -31,4 +31,4 @@
 - A3：这是一个已知问题，是因为检测frida正在运行的方法速度过快造成的，重新打开应用即可解决。
 
 ## 七、截图
-<img src="img/demo.jpg" />
+<img src="img/screenshot.jpg" />
