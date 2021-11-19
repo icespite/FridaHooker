@@ -1,5 +1,7 @@
 package top.icespite.fridahooker.view;
 
+import static top.icespite.fridahooker.config.Config.INITCONFIG_FILE_NAME;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.Uri;
@@ -14,6 +16,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Switch;
@@ -41,6 +44,7 @@ import top.icespite.fridahooker.R;
 import top.icespite.fridahooker.agent.FridaAgent;
 import top.icespite.fridahooker.agent.StatusCallback;
 import top.icespite.fridahooker.config.Config;
+import top.icespite.fridahooker.config.InitConfig;
 import top.icespite.fridahooker.util.Msg;
 import top.icespite.fridahooker.util.DeviceHelper;
 import top.icespite.fridahooker.util.LogUtil;
@@ -53,7 +57,6 @@ import top.icespite.fridahooker.util.Util;
 public class MainActivity extends AppCompatActivity implements Handler.Callback, ProgressCallback {
     private static final String TAG = "IceSpite-";
     private static final int READ_REQUEST_CODE = 129;
-    private String fridaVersion = Config.LOCAL_FRIDA_VERSION;
 
     private final Handler handler = new Handler(this);
     private FridaAgent fridaAgent;
@@ -83,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback,
         initUi();
         initNiceSpinner();
         fridaAgent = new FridaAgent(getFilesDir().getAbsolutePath() +
-                File.separator + "frida" + File.separator + fridaVersion);
+                File.separator + "frida" + File.separator + InitConfig.getInitConfig().getVersion());
     }
 
     private void initUi() {
@@ -94,13 +97,16 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback,
         TextView textViewDeviceName = findViewById(R.id.textViewDeviceName);
         TextView textViewStructure = findViewById(R.id.textViewStructure);
         TextView fridaPath = findViewById(R.id.fridaPath);
+        EditText paramsEditText = (EditText) findViewById(R.id.inputParams);
         Button btnFridaManage = findViewById(R.id.btnFridaManage);
         progressBar = findViewById(R.id.progressBar);
         imageStatus.setImageResource(R.mipmap.status_error);
         switchStatus.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 if (!fridaAgent.isStarted()) {
-                    startFrida();
+                    InitConfig.getInitConfig().setParams(paramsEditText.getText().toString());
+                    writeParams();
+                    startFrida(InitConfig.getInitConfig().getParams());
                 }
             } else {
                 if (fridaAgent.isStarted()) {
@@ -144,7 +150,8 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback,
         deviceAbiString = String.format(deviceAbiString, abi);
         textViewStructure.setText(deviceAbiString);
         fridaPath.setText(String.format(getString(R.string.frida_path), getFilesDir().getAbsolutePath() +
-                File.separator + "frida" + File.separator + fridaVersion));
+                File.separator + "frida" + File.separator + InitConfig.getInitConfig().getVersion()));
+        paramsEditText.setText(InitConfig.getInitConfig().getParams());
     }
 
     public String[] getFridaVersions() {
@@ -164,7 +171,7 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback,
         List<String> dataset = new LinkedList<>(Arrays.asList(files));
         niceSpinner.attachDataSource(dataset);
         for (int i = 0; i < files.length; i++) {
-            if (files[i].equals(fridaVersion)) {
+            if (files[i].equals(InitConfig.getInitConfig().getVersion())) {
                 niceSpinner.setSelectedIndex(i);
                 break;
             }
@@ -172,9 +179,8 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback,
         niceSpinner.setOnSpinnerItemSelectedListener(new OnSpinnerItemSelectedListener() {
             @Override
             public void onItemSelected(NiceSpinner parent, View view, int position, long id) {
-                fridaVersion = (String) parent.getItemAtPosition(position);
-                writeFridaVersion(fridaVersion);
-                Toast.makeText(MainActivity.this, "切换为" + fridaVersion, Toast.LENGTH_SHORT).show();
+                writeFridaVersion((String) parent.getItemAtPosition(position));
+                Toast.makeText(MainActivity.this, "切换为" + InitConfig.getInitConfig().getVersion(), Toast.LENGTH_SHORT).show();
                 init();
                 checkAll();
             }
@@ -184,15 +190,8 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback,
 
     public void initFridaVersion() {
         try {
-            FileInputStream fin = openFileInput("version.txt");
-            int lenght = fin.available();
-            if (lenght == 0) {
-                return;
-            } else {
-                byte[] buffer = new byte[lenght];
-                fin.read(buffer);
-                fridaVersion = new String(buffer, StandardCharsets.UTF_8);
-            }
+            FileInputStream fin = openFileInput(INITCONFIG_FILE_NAME);
+            InitConfig.getInitConfig().getFromFile(fin);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -200,13 +199,20 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback,
 
     public void writeFridaVersion(String version) {
         try {
-            FileOutputStream fout = this.openFileOutput("version.txt", Context.MODE_PRIVATE);
-            byte[] bytes = version.getBytes();
-            fout.write(bytes);
-            fout.close();
-            fridaVersion = version;
+            FileOutputStream fout = this.openFileOutput(INITCONFIG_FILE_NAME, Context.MODE_PRIVATE);
+            InitConfig.getInitConfig().setVersion(version);
+            InitConfig.getInitConfig().writeToFile(fout);
             fridaAgent = new FridaAgent(getFilesDir().getAbsolutePath() +
-                    File.separator + "frida" + File.separator + fridaVersion);
+                    File.separator + "frida" + File.separator + version);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void writeParams() {
+        try {
+            FileOutputStream fout = this.openFileOutput(INITCONFIG_FILE_NAME, Context.MODE_PRIVATE);
+            InitConfig.getInitConfig().writeToFile(fout);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -247,9 +253,6 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback,
                 installFrida((File) msg.obj);
                 initNiceSpinner();
                 break;
-            case Msg.DOWNLOAD_FRIDA_FROM_ASSET_FAILED:
-                makeMessageDialog(R.string.warnings, R.string.operation_failed_message).show();
-                break;
             case Msg.DOWNLOAD_FRIDA_FROM_SDCARD_FAILED:
                 makeMessageDialog("Tips", "您似乎选择了一个不受支持的文件，请确保未修改过frida-server的文件名且选择了正确的文件。").show();
                 break;
@@ -276,7 +279,7 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback,
                     }
                     imageStatus.setImageResource(fridaAgent.isInstalled() ? R.mipmap.status_success : R.mipmap.status_error);
                     String fridaStatusString = getString(fridaAgent.isInstalled() ? R.string.frida_ready : R.string.frida_missing);
-                    fridaStatusString = String.format(fridaStatusString, fridaVersion);
+                    fridaStatusString = String.format(fridaStatusString, InitConfig.getInitConfig().getVersion());
                     textViewFridaVersion.setText(fridaStatusString);
                     setProgress(R.id.progressBarFridaInstall, fridaAgent.isInstalled() ? 1 : 0);
                     switchStatus.setEnabled(fridaAgent.isInstalled());
@@ -329,10 +332,10 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback,
         }
     }
 
-    private void startFrida() {
+    private void startFrida(String params) {
         boolean isFinish = false;
         if (fridaAgent != null) {
-            isFinish = fridaAgent.startFrida();
+            isFinish = fridaAgent.startFrida(params);
         }
         if (isFinish) {
             checkAll();

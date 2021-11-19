@@ -43,18 +43,6 @@ public class NativeShell {
             Log.d("shell命令执行结果：", process.exitValue() + "");
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-//            try {
-//                if (dataOutputStream != null) {
-//                    dataOutputStream.close();
-//                }
-//                if (dataInputStream != null) {
-//                    dataInputStream.close();
-//                }
-//                process.destroy();
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
         }
     }
 

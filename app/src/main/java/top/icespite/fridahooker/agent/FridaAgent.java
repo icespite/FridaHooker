@@ -65,13 +65,13 @@ public class FridaAgent {
         return 0 == code;
     }
 
-    public boolean startFrida() {
+    public boolean startFrida(String params) {
         if (!isSupported || !isInstalled) {
             return false;
         }
         String[] cmds = {
                 "chmod +x " + installPath + File.separator + "frida-server",
-                "su -c " + installPath + File.separator + "frida-server  &",
+                "su -c " + installPath + File.separator + "frida-server " + params + "  &",
         };
         for (String cmd : cmds) {
             int code = NativeShell.execute(cmd);

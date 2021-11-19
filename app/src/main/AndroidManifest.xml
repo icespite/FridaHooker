@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/frida"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="top.icespite.fridahooker.view.MainActivity">
+        <activity android:name="top.icespite.fridahooker.view.MainActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
